@@ -19,7 +19,7 @@ cp /etc/openvpn/easy-rsa/vars.example /etc/openvpn/easy-rsa/vars
 
 # Kemudian edit file variabel easy-rsa
 # nano /etc/openvpn/easy-rsa/vars
-wget -O /etc/openvpn/easy-rsa/vars "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/vars.conf"
+wget -O /etc/openvpn/easy-rsa/vars "https://raw.githubusercontent.com/zahwanugrah/AutoScriptSSH/main/vars.conf"
 # edit projek export KEY_NAME="vpn"
 # Save dan keluar dari editor
 
@@ -27,15 +27,15 @@ wget -O /etc/openvpn/easy-rsa/vars "https://raw.githubusercontent.com/syntax-er0
 openssl dhparam -out /etc/openvpn/dh2048.pem 2048
 
 # install openvpn
-wget -O /etc/openvpn/vpn.zip "https://github.com/syntax-er0r/AutoScriptSSH/raw/main/vpn.zip"
+wget -O /etc/openvpn/vpn.zip "https://github.com/zahwanugrah/AutoScriptSSH/raw/main/vpn.zip"
 cd /etc/openvpn/
 unzip vpn.zip
 rm -f vpn.zip
 cd
 # Buat config server TCP 1194
 cd /etc/openvpn
-cat > /etc/openvpn/server-tcp-1194.conf <<-END
-port 1194
+cat > /etc/openvpn/server-tcp-110.conf <<-END
+port 110
 proto tcp
 dev tun
 ca ca.crt
@@ -54,13 +54,13 @@ keepalive 5 30
 comp-lzo
 persist-key
 persist-tun
-status lostserver-tcp-1194.log
+status lostserver-tcp-110.log
 verb 3
 END
 
 # Buat config server UDP 2200
-cat > /etc/openvpn/server-udp-2200.conf <<-END
-port 2200
+cat > /etc/openvpn/server-udp-2500.conf <<-END
+port 2500
 proto udp
 dev tun
 ca ca.crt
@@ -79,7 +79,7 @@ keepalive 5 30
 comp-lzo
 persist-key
 persist-tun
-status lostserver-udp-2200.log
+status lostserver-udp-2500.log
 verb 3
 END
 
@@ -107,16 +107,13 @@ mkdir clientconfig
 cp /etc/openvpn/{lostserver.crt,lostserver.key,ca.crt,ta.key} clientconfig/
 cd clientconfig
 
-# Buat config client UDP 1194
+# Buat config client UDP 110
 cd /etc/openvpn
-cat > /etc/openvpn/client-udp-1194.ovpn <<-END
-############## WELCOME TO ###############
-########## WWW.LOSESERVER.XYZ ###########
-####### DONT FORGET TO SUPPORT US #######
+cat > /etc/openvpn/client-udp-110.ovpn <<-END
 client
 dev tun
 proto udp
-remote xxxxxxxxx 1194
+remote xxxxxxxxx 110
 resolv-retry infinite
 route-method exe
 nobind
@@ -127,17 +124,14 @@ comp-lzo
 verb 3
 END
 
-sed -i $MYIP2 /etc/openvpn/client-udp-1194.ovpn;
+sed -i $MYIP2 /etc/openvpn/client-udp-110.ovpn;
 
-# Buat config client TCP 1194
-cat > /etc/openvpn/client-tcp-1194.ovpn <<-END
-############## WELCOME TO ###############
-########## WWW.LOSTSERVER.XYZ ###########
-####### DONT FORGET TO SUPPORT US #######
+# Buat config client TCP 110
+cat > /etc/openvpn/client-tcp-110.ovpn <<-END
 client
 dev tun
 proto tcp
-remote xxxxxxxxx 1194
+remote xxxxxxxxx 110
 resolv-retry infinite
 route-method exe
 nobind
@@ -148,17 +142,14 @@ comp-lzo
 verb 3
 END
 
-sed -i $MYIP2 /etc/openvpn/client-tcp-1194.ovpn;
+sed -i $MYIP2 /etc/openvpn/client-tcp-110.ovpn;
 
 # Buat config client UDP 2200
-cat > /etc/openvpn/client-udp-2200.ovpn <<-END
-############## WELCOME TO ###############
-########## WWW.LOSTSERVER.XYZ ###########
-####### DONT FORGET TO SUPPORT US #######
+cat > /etc/openvpn/client-udp-2500.ovpn <<-END
 client
 dev tun
 proto udp
-remote xxxxxxxxx 2200
+remote xxxxxxxxx 2500
 resolv-retry infinite
 route-method exe
 nobind
@@ -169,17 +160,14 @@ comp-lzo
 verb 3
 END
 
-sed -i $MYIP2 /etc/openvpn/client-udp-2200.ovpn;
+sed -i $MYIP2 /etc/openvpn/client-udp-2500.ovpn;
 
 # Buat config client TCP 2200
-cat > /etc/openvpn/client-tcp-2200.ovpn <<-END
-############## WELCOME TO ###############
-########## WWW.LOSTSERVER.XYZ ###########
-####### DONT FORGET TO SUPPORT US #######
+cat > /etc/openvpn/client-tcp-2500.ovpn <<-END
 client
 dev tun
 proto tcp
-remote xxxxxxxxx 2200
+remote xxxxxxxxx 2500
 resolv-retry infinite
 route-method exe
 nobind
@@ -190,17 +178,14 @@ comp-lzo
 verb 3
 END
 
-sed -i $MYIP2 /etc/openvpn/client-tcp-2200.ovpn;
+sed -i $MYIP2 /etc/openvpn/client-tcp-2500.ovpn;
 
 # Buat config client SSL
 cat > /etc/openvpn/client-tcp-ssl.ovpn <<-END
-############## WELCOME TO ###############
-########## WWW.LOSTSERVER.XYZ ###########
-####### DONT FORGET TO SUPPORT US #######
 client
 dev tun
 proto tcp
-remote xxxxxxxxx 442
+remote xxxxxxxxx 443
 resolv-retry infinite
 route-method exe
 nobind
@@ -217,21 +202,21 @@ cd
 # pada tulisan xxx ganti dengan alamat ip address VPS anda 
 /etc/init.d/openvpn restart
 
-# masukkan certificatenya ke dalam config client TCP 1194
-echo '<ca>' >> /etc/openvpn/client-tcp-1194.ovpn
-cat /etc/openvpn/ca.crt >> /etc/openvpn/client-tcp-1194.ovpn
+# masukkan certificatenya ke dalam config client TCP 110
+echo '<ca>' >> /etc/openvpn/client-tcp-110.ovpn
+cat /etc/openvpn/ca.crt >> /etc/openvpn/client-tcp-110.ovpn
 echo '</ca>' >> /etc/openvpn/client-tcp-1194.ovpn
 
-# Copy config OpenVPN client ke home directory root agar mudah didownload ( TCP 1194 )
-cp /etc/openvpn/client-tcp-1194.ovpn /home/vps/public_html/client-tcp-1194.ovpn
+# Copy config OpenVPN client ke home directory root agar mudah didownload ( TCP 110 )
+cp /etc/openvpn/client-tcp-110.ovpn /home/vps/public_html/client-tcp-110.ovpn
 
-# masukkan certificatenya ke dalam config client UDP 2200
-echo '<ca>' >> /etc/openvpn/client-udp-2200.ovpn
-cat /etc/openvpn/ca.crt >> /etc/openvpn/client-udp-2200.ovpn
-echo '</ca>' >> /etc/openvpn/client-udp-2200.ovpn
+# masukkan certificatenya ke dalam config client UDP 2600
+echo '<ca>' >> /etc/openvpn/client-udp-2500.ovpn
+cat /etc/openvpn/ca.crt >> /etc/openvpn/client-udp-2500.ovpn
+echo '</ca>' >> /etc/openvpn/client-udp-2500.ovpn
 
 # Copy config OpenVPN client ke home directory root agar mudah didownload ( UDP 2200 )
-cp /etc/openvpn/client-udp-2200.ovpn /home/vps/public_html/client-udp-2200.ovpn
+cp /etc/openvpn/client-udp-2500.ovpn /home/vps/public_html/client-udp-2500.ovpn
 
 # masukkan certificatenya ke dalam config client SSL
 echo '<ca>' >> /etc/openvpn/client-tcp-ssl.ovpn
