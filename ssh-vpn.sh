@@ -14,11 +14,11 @@ ver=$VERSION_ID
 #detail nama perusahaan
 country=ID
 state=Indonesia
-locality=Indonesia
-organization=lostserver.xyz
-organizationalunit=lostserver.xyz
-commonname=lostserver.xyz
-email=admin@lostserver.xyz
+locality=Jawa-Tengah
+organization=KopeT-19
+organizationalunit=KopeT-19.com
+commonname=KopeT-19.com
+email=admin@KopeT-19.com
 
 # simple password minimal
 wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/zahwanugrah/AutoScriptSSH/main/password"
@@ -76,7 +76,7 @@ apt dist-upgrade -y
 # install wget and curl
 apt -y install wget curl
 
-# set time GMT +7
+# set time GMT +8
 ln -fs /usr/share/zoneinfo/Asia/Kuala_Lumpur /etc/localtime
 
 # set locale
@@ -86,7 +86,7 @@ sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 apt-get --reinstall --fix-missing install -y bzip2 gzip coreutils wget screen rsyslog iftop htop net-tools zip unzip wget net-tools curl nano sed screen gnupg gnupg1 bc apt-transport-https build-essential dirmngr libxml-parser-perl neofetch git
 echo "clear" >> .profile
 echo "neofetch" >> .profile
-echo "echo by LostServer" >> .profile
+echo "echo by KopeT-19" >> .profile
 
 # install webserver
 apt -y install nginx
@@ -95,7 +95,7 @@ rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/zahwanugrah/AutoScriptSSH/main/nginx.conf"
 mkdir -p /home/vps/public_html
-echo "<pre>Setup by kopet19</pre>" > /home/vps/public_html/index.html
+echo "<pre>Setup by kopet-19</pre>" > /home/vps/public_html/index.html
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/zahwanugrah/AutoScriptSSH/main/vps.conf"
 /etc/init.d/nginx restart
 
@@ -117,7 +117,7 @@ sed -i 's/Port 22/Port 22/g' /etc/ssh/sshd_config
 apt -y install dropbear
 sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
 sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=777/g' /etc/default/dropbear
-sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 109"/g' /etc/default/dropbear
+sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 442"/g' /etc/default/dropbear
 echo "/bin/false" >> /etc/shells
 echo "/usr/sbin/nologin" >> /etc/shells
 /etc/init.d/dropbear restart
@@ -155,13 +155,6 @@ apt install stunnel4 -y
 cat > /etc/stunnel/stunnel.conf <<-END
 cert = /etc/stunnel/stunnel.pem
 client = no
-socket = a:SO_REUSEADDR=1
-socket = l:TCP_NODELAY=1
-socket = r:TCP_NODELAY=1
-
-[dropbear]
-accept = 442
-connect = 127.0.0.1:109
 
 [openvpn]
 accept = 443
@@ -222,8 +215,8 @@ echo "Banner /etc/issue.net" >>/etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
 #install bbr dan optimasi kernel
-wget https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/bbr.sh && chmod +x bbr.sh && ./bbr.sh
-wget https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/set-br.sh && chmod +x set-br.sh && ./set-br.sh
+wget https://raw.githubusercontent.com/zahwanugrah/AutoScriptSSH/main/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+wget https://raw.githubusercontent.com/zahwanugrah/AutoScriptSSH/main/set-br.sh && chmod +x set-br.sh && ./set-br.sh
 
 # blockir torrent
 iptables -A FORWARD -m string --string "get_peers" --algo bm -j DROP
