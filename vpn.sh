@@ -1,6 +1,5 @@
 #!/bin/bash
 #
-# By LostServer
 # ==================================================
 
 # initialisasi var
@@ -32,7 +31,7 @@ cd /etc/openvpn/
 unzip vpn.zip
 rm -f vpn.zip
 cd
-# Buat config server TCP 1194
+# Buat config server TCP 110
 cd /etc/openvpn
 cat > /etc/openvpn/server-tcp-110.conf <<-END
 port 110
@@ -58,7 +57,7 @@ status lostserver-tcp-110.log
 verb 3
 END
 
-# Buat config server UDP 2200
+# Buat config server UDP 2500
 cat > /etc/openvpn/server-udp-2500.conf <<-END
 port 2500
 proto udp
@@ -144,7 +143,7 @@ END
 
 sed -i $MYIP2 /etc/openvpn/client-tcp-110.ovpn;
 
-# Buat config client UDP 2200
+# Buat config client UDP 2500
 cat > /etc/openvpn/client-udp-2500.ovpn <<-END
 client
 dev tun
@@ -162,7 +161,7 @@ END
 
 sed -i $MYIP2 /etc/openvpn/client-udp-2500.ovpn;
 
-# Buat config client TCP 2200
+# Buat config client TCP 2500
 cat > /etc/openvpn/client-tcp-2500.ovpn <<-END
 client
 dev tun
@@ -194,6 +193,9 @@ persist-tun
 auth-user-pass
 comp-lzo
 verb 3
+up /etc/openvpn/update-resolv-conf
+down /etc/openvpn/update-resolv-conf
+route 0.0.0.0 255.255.255.255 net_gateway
 END
 
 sed -i $MYIP2 /etc/openvpn/client-tcp-ssl.ovpn;
@@ -205,17 +207,17 @@ cd
 # masukkan certificatenya ke dalam config client TCP 110
 echo '<ca>' >> /etc/openvpn/client-tcp-110.ovpn
 cat /etc/openvpn/ca.crt >> /etc/openvpn/client-tcp-110.ovpn
-echo '</ca>' >> /etc/openvpn/client-tcp-1194.ovpn
+echo '</ca>' >> /etc/openvpn/client-tcp-110.ovpn
 
 # Copy config OpenVPN client ke home directory root agar mudah didownload ( TCP 110 )
 cp /etc/openvpn/client-tcp-110.ovpn /home/vps/public_html/client-tcp-110.ovpn
 
-# masukkan certificatenya ke dalam config client UDP 2600
+# masukkan certificatenya ke dalam config client UDP 2500
 echo '<ca>' >> /etc/openvpn/client-udp-2500.ovpn
 cat /etc/openvpn/ca.crt >> /etc/openvpn/client-udp-2500.ovpn
 echo '</ca>' >> /etc/openvpn/client-udp-2500.ovpn
 
-# Copy config OpenVPN client ke home directory root agar mudah didownload ( UDP 2200 )
+# Copy config OpenVPN client ke home directory root agar mudah didownload ( UDP 2500 )
 cp /etc/openvpn/client-udp-2500.ovpn /home/vps/public_html/client-udp-2500.ovpn
 
 # masukkan certificatenya ke dalam config client SSL
