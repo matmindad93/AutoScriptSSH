@@ -8,7 +8,7 @@ apt -y install chrony
 timedatectl set-ntp true
 systemctl enable chronyd && systemctl restart chronyd
 systemctl enable chrony && systemctl restart chrony
-timedatectl set-timezone Asia/Jakarta
+timedatectl set-timezone Asia/Kuala_Lumpur
 chronyc sourcestats -v
 chronyc tracking -v
 date
@@ -30,7 +30,7 @@ cat> /etc/v2ray/config.json << END
   },
   "inbounds": [
     {
-      "port": 4443,
+      "port": 8443,
       "protocol": "vmess",
       "settings": {
         "clients": [
@@ -311,7 +311,7 @@ cat> /etc/v2ray/vnone.json << END
   },
   "inbounds": [
     {
-      "port": 880,
+      "port": 85,
       "protocol": "vless",
       "settings": {
         "clients": [
