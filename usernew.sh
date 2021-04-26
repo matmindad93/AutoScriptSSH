@@ -5,7 +5,7 @@ read -p "Password : " Pass
 read -p "Expired (hari): " masaaktif
 
 IP=$(wget -qO- icanhazip.com);
-echo Script AutoCreate Akun SSH dan OpenVPN by Lost Server
+echo Script AutoCreate Akun SSH dan OpenVPN
 sleep 1
 echo Ping Host
 echo Cek Hak Akses...
@@ -30,12 +30,12 @@ echo -e "==============================="
 echo -e "IP Server      : $IP"
 echo -e "Host           : $domain"
 echo -e "OpenSSH        : 22"
-echo -e "Dropbear       : 143, 109"
+echo -e "Dropbear       : 442, 777"
 echo -e "SSL/TLS        : 443"
-echo -e "Port Squid     : 3128, 8080 (limit to IP SSH)" 
-echo -e "OpenVPN        : TCP 1194 http://$IP:81/client-tcp-1194.ovpn"
-echo -e "OpenVPN        : UDP 2200 http://$IP:81/client-udp-2200.ovpn"
-echo -e "OpenVPN        : SSL 992 http://$IP:81/client-tcp-ssl.ovpn"
+echo -e "Port Squid     : 3128, 8080, 8888 (limit to IP SSH)" 
+echo -e "OpenVPN        : TCP 110 http://$IP:81/client-tcp-1194.ovpn"
+echo -e "OpenVPN        : UDP 2500 http://$IP:81/client-udp-2200.ovpn"
+echo -e "OpenVPN        : SSL 443 http://$IP:81/client-tcp-ssl.ovpn"
 echo -e "badvpn         : 7100, 7200, 7300"
 echo -e "==============================="
 echo -e "Aktif Sampai   : $exp"
